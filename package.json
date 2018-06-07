@@ -12,5 +12,14 @@
     },
     "dependencies": {
         "onoff": "^3.1.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:us09alex/homebridge-mailbox.git"
+    },
+    "bugs": {
+        "url": "https://github.com/us09alex/homebridge-mailbox/issues"
+    },
+    "homepage": "https://github.com/us09alex/homebridge-mailbox#readme",
+    "author": "us09alex"
 }
