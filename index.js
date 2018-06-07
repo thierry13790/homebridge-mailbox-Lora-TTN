@@ -1,4 +1,3 @@
-var http = require('http');
 const Gpio = require('onoff').Gpio;
 var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton;
 
@@ -17,18 +16,6 @@ function MailboxPlatform(log, config, api) {
     this.config = config;
     this.accessories = [];
 
-    this.requestServer = http.createServer(function (request, response) {
-        if (request.url == "/trigger") {
-            this.triggerMotion();
-            response.writeHead(204);
-            response.end();
-        }
-    }.bind(this));
-
-    this.requestServer.listen(18081, function () {
-        // this.log("Server Listening...");
-    });
-
     if (api) {
         this.api = api;
 
@@ -41,10 +28,10 @@ function MailboxPlatform(log, config, api) {
             pushButton = new Gpio(this.config.gpioPort || 4, 'in', 'both');
             pushButton.watch(function (err, value) {
                 if (err) {
-                    console.error('There was an error', err);
+                    this.log('There was an error', err);
                     return;
                 }
-                console.log('Received signal');
+                this.log('Received signal');
                 this.triggerMotion();
             });
 
