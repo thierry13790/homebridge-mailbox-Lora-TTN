@@ -1,7 +1,7 @@
 {
     "name": "homebridge-mailbox",
-    "version": "0.0.2",
-    "description": "Mailbox plugin",
+    "version": "0.0.3",
+    "description": "A Homebridge plugin with GPIO support",
     "license": "ISC",
     "keywords": [
         "homebridge-plugin"
