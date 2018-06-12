@@ -24,14 +24,12 @@ function MailboxPlatform(log, config, api) {
                 platform.addAccessory(platform.config.mailboxName || 'Mailbox');
             }
 
-            if (platform.config.timeBetween) {
-                if (platform.config.timeBetween < 5000) {
-                    timeBetween = 5000;
-                    platform.log('Using 5000ms as time between triggers.');
-                } else {
-                    timeBetween = platform.config.timeBetween;
-                    platform.log(`Using ${timeBetween}ms as time between triggers.`);
-                }
+            if (platform.config.timeBetween && platform.config.timeBetween >= 5000) {
+                timeBetween = platform.config.timeBetween;
+                platform.log(`Using ${timeBetween}ms as time between triggers.`);
+            } else {
+                timeBetween = 5000;
+                platform.log('Using 5000ms as time between triggers.');
             }
 
             pushButton = new Gpio(platform.config.gpioPort || 4, 'in', 'both');
