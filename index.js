@@ -12,30 +12,31 @@ module.exports = function (homebridge) {
 
 function MailboxPlatform(log, config, api) {
     // log("MailboxPlatform Init");
-    this.log = log;
-    this.config = config;
-    this.accessories = [];
+    const platform = this;
+    platform.log = log;
+    platform.config = config;
+    platform.accessories = [];
 
     if (api) {
-        this.api = api;
+        platform.api = api;
 
-        this.api.on('didFinishLaunching', function () {
-            // this.log("DidFinishLaunching");
-            if (this.accessories.length === 0) {
-                this.addAccessory(this.config.mailboxName || 'Mailbox');
+        platform.api.on('didFinishLaunching', function () {
+            // platform.log("DidFinishLaunching");
+            if (platform.accessories.length === 0) {
+                platform.addAccessory(platform.config.mailboxName || 'Mailbox');
             }
 
-            pushButton = new Gpio(this.config.gpioPort || 4, 'in', 'both');
+            pushButton = new Gpio(platform.config.gpioPort || 4, 'in', 'both');
             pushButton.watch(function (err, value) {
                 if (err) {
-                    this.log('There was an error', err);
+                    platform.log('There was an error', err);
                     return;
                 }
-                this.log('Received signal');
-                this.triggerMotion();
+                platform.log('Received signal ' + value);
+                platform.triggerMotion();
             });
 
-            process.on('SIGINT', this.unexportOnClose);
+            process.on('SIGINT', platform.unexportOnClose);
         }.bind(this));
     }
 }
@@ -45,7 +46,8 @@ MailboxPlatform.prototype.unexportOnClose = function () {
 }
 
 MailboxPlatform.prototype.configureAccessory = function (accessory) {
-    // this.log(accessory.displayName, "Configure Accessory");
+    const platform = this;
+    // platform.log(accessory.displayName, "Configure Accessory");
     accessory.reachable = true;
 
     accessory.on('identify', function (paired, callback) {
@@ -68,30 +70,33 @@ MailboxPlatform.prototype.configureAccessory = function (accessory) {
             callback(null, Boolean(motion));
         });
 
-    this.accessories.push(accessory);
+        platform.accessories.push(accessory);
 }
 
 MailboxPlatform.prototype.addAccessory = function (accessoryName) {
-    // this.log("Add Accessory");
+    const platform = this;
+    // platform.log("Add Accessory");
     var uuid = UUIDGen.generate(accessoryName);
 
     var newAccessory = new Accessory(accessoryName, uuid);
-    this.configureAccessory(newAccessory);
-    this.api.registerPlatformAccessories("homebridge-mailbox", "MailboxPlatform", [newAccessory]);
+    platform.configureAccessory(newAccessory);
+    platform.api.registerPlatformAccessories("homebridge-mailbox", "MailboxPlatform", [newAccessory]);
 }
 
 MailboxPlatform.prototype.updateAccessoriesReachability = function () {
-    this.log("Update Reachability");
-    for (var index in this.accessories) {
-        var accessory = this.accessories[index];
+    const platform = this;
+    platform.log("Update Reachability");
+    for (var index in platform.accessories) {
+        var accessory = platform.accessories[index];
         accessory.updateReachability(true);
     }
 }
 
 MailboxPlatform.prototype.triggerMotion = function () {
-    // this.log("Trigger");
-    for (var index in this.accessories) {
-        var accessory = this.accessories[index];
+    const platform = this;
+    // platform.log("Trigger");
+    for (var index in platform.accessories) {
+        var accessory = platform.accessories[index];
         motion = true;
         accessory.getService(Service.MotionSensor).setCharacteristic(Characteristic.MotionDetected, true);
         setTimeout(() => {
@@ -102,8 +107,9 @@ MailboxPlatform.prototype.triggerMotion = function () {
 }
 
 MailboxPlatform.prototype.removeAccessory = function () {
-    // this.log("Remove Accessory");
-    this.api.unregisterPlatformAccessories("homebridge-mailbox", "MailboxPlatform", this.accessories);
+    const platform = this;
+    // platform.log("Remove Accessory");
+    platform.api.unregisterPlatformAccessories("homebridge-mailbox", "MailboxPlatform", platform.accessories);
 
-    this.accessories = [];
+    platform.accessories = [];
 }
