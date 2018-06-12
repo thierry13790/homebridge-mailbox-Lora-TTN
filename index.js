@@ -1,5 +1,5 @@
 const Gpio = require('onoff').Gpio;
-var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton;
+var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger, timeBetween;
 
 module.exports = function (homebridge) {
     Accessory = homebridge.platformAccessory;
@@ -11,7 +11,6 @@ module.exports = function (homebridge) {
 }
 
 function MailboxPlatform(log, config, api) {
-    // log("MailboxPlatform Init");
     const platform = this;
     platform.log = log;
     platform.config = config;
@@ -21,9 +20,18 @@ function MailboxPlatform(log, config, api) {
         platform.api = api;
 
         platform.api.on('didFinishLaunching', function () {
-            // platform.log("DidFinishLaunching");
             if (platform.accessories.length === 0) {
                 platform.addAccessory(platform.config.mailboxName || 'Mailbox');
+            }
+
+            if (platform.config.timeBetween) {
+                if (platform.config.timeBetween < 5000) {
+                    timeBetween = 5000;
+                    platform.log('Using 5000ms as time between triggers.');
+                } else {
+                    timeBetween = platform.config.timeBetween;
+                    platform.log(`Using ${timeBetween}ms as time between triggers.`);
+                }
             }
 
             pushButton = new Gpio(platform.config.gpioPort || 4, 'in', 'both');
@@ -32,8 +40,12 @@ function MailboxPlatform(log, config, api) {
                     platform.log('There was an error', err);
                     return;
                 }
-                platform.log('Received signal ' + value);
-                platform.triggerMotion();
+
+                if (lastTrigger + timeBetween < Date.now()) {
+                    lastTrigger = Date.now();
+                    platform.log('Received signal from GPIO port.');
+                    platform.triggerMotion();
+                }
             });
 
             process.on('SIGINT', platform.unexportOnClose);
@@ -70,7 +82,7 @@ MailboxPlatform.prototype.configureAccessory = function (accessory) {
             callback(null, Boolean(motion));
         });
 
-        platform.accessories.push(accessory);
+    platform.accessories.push(accessory);
 }
 
 MailboxPlatform.prototype.addAccessory = function (accessoryName) {
