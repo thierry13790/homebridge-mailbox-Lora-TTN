@@ -112,7 +112,7 @@ MailboxPlatform.prototype.triggerMotion = function () {
         setTimeout(() => {
             motion = false;
             accessory.getService(Service.MotionSensor).setCharacteristic(Characteristic.MotionDetected, false);
-        }, 3000);
+        }, timeBetween - 1000);
     }
 }
 
