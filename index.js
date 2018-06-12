@@ -1,5 +1,5 @@
 const Gpio = require('onoff').Gpio;
-var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger, timeBetween;
+var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger = Date.now(), timeBetween;
 
 module.exports = function (homebridge) {
     Accessory = homebridge.platformAccessory;
