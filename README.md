@@ -13,7 +13,17 @@ Example config.json:
                 "platform": "MailboxPlatform",
                 "name": "mailbox",
                 "mailboxName" : "Mailbox",
-                "gpioPort": 4
+                "gpioPort": 4,
+                "timeBetween": 5000
             }
         ]
     }
+
+### mailboxName
+The name of the mailbox in the Home app
+
+### gpioPort
+The port of the Raspberry PI to listen
+
+### timeBetween
+The minimum time between to triggers of the motion sensor. (Minimum is set to 5 seconds)
