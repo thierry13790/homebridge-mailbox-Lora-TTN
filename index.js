@@ -16,6 +16,11 @@ function MailboxPlatform(log, config, api) {
     platform.config = config;
     platform.accessories = [];
 
+    if (!platform.config) {
+        platform.log('Could not find config for mailbox plugin. Please take a look in your config.json');
+        return;
+    }
+
     if (api) {
         platform.api = api;
 
