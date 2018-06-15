@@ -1,5 +1,5 @@
 const Gpio = require('onoff').Gpio;
-var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger = Date.now(), timeBetween;
+var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger = 0, timeBetween;
 
 module.exports = function (homebridge) {
     Accessory = homebridge.platformAccessory;
@@ -62,7 +62,6 @@ MailboxPlatform.prototype.unexportOnClose = function () {
 
 MailboxPlatform.prototype.configureAccessory = function (accessory) {
     const platform = this;
-    // platform.log(accessory.displayName, "Configure Accessory");
     accessory.reachable = true;
 
     accessory.on('identify', function (paired, callback) {
@@ -90,7 +89,6 @@ MailboxPlatform.prototype.configureAccessory = function (accessory) {
 
 MailboxPlatform.prototype.addAccessory = function (accessoryName) {
     const platform = this;
-    // platform.log("Add Accessory");
     var uuid = UUIDGen.generate(accessoryName);
 
     var newAccessory = new Accessory(accessoryName, uuid);
@@ -100,7 +98,6 @@ MailboxPlatform.prototype.addAccessory = function (accessoryName) {
 
 MailboxPlatform.prototype.updateAccessoriesReachability = function () {
     const platform = this;
-    platform.log("Update Reachability");
     for (var index in platform.accessories) {
         var accessory = platform.accessories[index];
         accessory.updateReachability(true);
@@ -109,7 +106,6 @@ MailboxPlatform.prototype.updateAccessoriesReachability = function () {
 
 MailboxPlatform.prototype.triggerMotion = function () {
     const platform = this;
-    // platform.log("Trigger");
     for (var index in platform.accessories) {
         var accessory = platform.accessories[index];
         motion = true;
@@ -123,7 +119,6 @@ MailboxPlatform.prototype.triggerMotion = function () {
 
 MailboxPlatform.prototype.removeAccessory = function () {
     const platform = this;
-    // platform.log("Remove Accessory");
     platform.api.unregisterPlatformAccessories("homebridge-mailbox", "MailboxPlatform", platform.accessories);
 
     platform.accessories = [];
