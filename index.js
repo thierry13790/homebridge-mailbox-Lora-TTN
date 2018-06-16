@@ -1,5 +1,5 @@
 const Gpio = require('onoff').Gpio;
-var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger = 0, timeBetween;
+var Accessory, Service, Characteristic, UUIDGen, motion = false, pushButton, lastTrigger = 0, timeBetween, counter = 0, timer = null;
 
 module.exports = function (homebridge) {
     Accessory = homebridge.platformAccessory;
@@ -43,6 +43,17 @@ function MailboxPlatform(log, config, api) {
                     platform.log('There was an error', err);
                     return;
                 }
+
+                if (timer) {
+                    clearInterval(timer);
+                }
+
+                counter++;
+                timer = setTimeout(() => {
+                    platform.log('Counted ' + counter + ' signals.');
+                    counter = 0;
+                    timer = null;
+                }, 4000);
 
                 if (lastTrigger + timeBetween < Date.now()) {
                     lastTrigger = Date.now();
