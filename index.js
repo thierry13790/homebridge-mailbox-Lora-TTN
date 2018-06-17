@@ -45,7 +45,7 @@ function MailboxPlatform(log, config, api) {
                 }
 
                 if (timer) {
-                    clearInterval(timer);
+                    clearTimeout(timer);
                 }
 
                 counter++;
@@ -53,13 +53,13 @@ function MailboxPlatform(log, config, api) {
                     platform.log('Counted ' + counter + ' signals.');
                     counter = 0;
                     timer = null;
-                }, 4000);
 
-                if (lastTrigger + timeBetween < Date.now()) {
-                    lastTrigger = Date.now();
-                    platform.log('Received signal from GPIO port.');
-                    platform.triggerMotion();
-                }
+                    if (lastTrigger + timeBetween < Date.now() && counter > platform.config.minimumSignals || 10) {
+                        lastTrigger = Date.now();
+                        platform.log('Received signal from GPIO port.');
+                        platform.triggerMotion();
+                    }
+                }, platform.config.maximumAmountBetweenSignals || 2000);
             });
 
             process.on('SIGINT', platform.unexportOnClose);

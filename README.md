@@ -22,7 +22,9 @@ Example config.json:
                 "name": "mailbox",
                 "mailboxName" : "Mailbox",
                 "gpioPort": 4,
-                "timeBetween": 5000
+                "timeBetween": 5000,
+                "minimumSignals": 10,
+                "maximumAmountBetweenSignals": 2000
             }
         ]
     }
@@ -35,3 +37,9 @@ The port of the Raspberry PI to listen
 
 ### timeBetween
 The minimum time between to triggers of the motion sensor. (Minimum is set to 5 seconds)
+
+### minimumSignals
+The minimum of signals with is required to trigger the motion sensor. You can set the maximum amount between two signals with "maximumAmountBetweenSignals". After that period of time the counter starts again at zero.
+
+### maximumAmountBetweenSignals
+The maximum amount between two signals.
