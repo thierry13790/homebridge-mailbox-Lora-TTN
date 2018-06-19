@@ -60,15 +60,15 @@ function MailboxPlatform(log, config, api) {
 
                 platform.counter++;
                 platform.timer = setTimeout(() => {
-                    platform.log('Counted ' + platform.counter + ' signals.');
-                    platform.counter = 0;
-                    platform.timer = null;
-
                     if (platform.lastTrigger + platform.config.timeBetween < Date.now() && platform.counter >= platform.config.minimumSignals) {
                         platform.lastTrigger = Date.now();
                         platform.log('Received signal from GPIO port.');
                         platform.triggerMotion();
                     }
+
+                    platform.log('Counted ' + platform.counter + ' signals.');
+                    platform.counter = 0;
+                    platform.timer = null;
                 }, platform.config.maximumAmountBetweenSignals);
             });
 
