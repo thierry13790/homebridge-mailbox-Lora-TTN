@@ -72,7 +72,7 @@ function MailboxPlatform(log, config, api) {
                 }, platform.config.maximumAmountBetweenSignals);
             });
 
-            process.on('SIGINT', platform.unexportOnClose);
+            platform.api.on('shutdown', platform.unexportOnClose);
         }.bind(this));
     }
 }
