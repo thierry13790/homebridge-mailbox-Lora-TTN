@@ -12,7 +12,7 @@ Install the plugin via npm:
 npm install homebridge-mailbox -g
 ```
 
-## My Instalation
+## My Installation
 
 ### Hardware
 1x Wireless doorbell **with a battery powered receiver** (You can also use a AC powered receiver but its much more dangerous than a battery powered one)
