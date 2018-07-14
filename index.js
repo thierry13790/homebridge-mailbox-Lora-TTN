@@ -54,6 +54,10 @@ function MailboxPlatform(log, config, api) {
                     return;
                 }
 
+                if (platform.timer && platform.counter >= platform.config.minimumSignals) {
+                    return;
+                }
+
                 if (platform.timer) {
                     clearTimeout(platform.timer);
                 }
