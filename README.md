@@ -39,7 +39,8 @@ Example config.json:
                 "gpioPort": 4,
                 "timeBetween": 5000,
                 "minimumSignals": 10,
-                "maximumAmountBetweenSignals": 2000
+                "maximumAmountBetweenSignals": 2000,
+                "debug": false
             }
         ]
     }
@@ -58,3 +59,6 @@ The minimum of signals with is required to trigger the motion sensor. You can se
 
 ### maximumAmountBetweenSignals
 The maximum amount between two signals.
+
+### debug
+If set to true you will see if the plugin detects a signal from the specified GPIO port.

@@ -13,7 +13,7 @@ module.exports = function (homebridge) {
 function MailboxPlatform(log, config, api) {
     const platform = this;
     platform.log = log;
-    platform.config = config;
+    platform.config = config || {};
     platform.accessories = [];
 
     platform.counter = 0;
@@ -31,6 +31,7 @@ function MailboxPlatform(log, config, api) {
     platform.config.gpioPort = platform.config.gpioPort || 4;
     platform.config.minimumSignals = platform.config.minimumSignals || 10;
     platform.config.maximumAmountBetweenSignals = platform.config.maximumAmountBetweenSignals || 2000;
+    platform.config.debug = platform.config.debug || false;
 
     if (platform.config.timeBetween && platform.config.timeBetween >= 5000) {
         platform.log(`Using ${platform.config.timeBetween}ms as time between triggers.`);
@@ -66,11 +67,15 @@ function MailboxPlatform(log, config, api) {
                 platform.timer = setTimeout(() => {
                     if (platform.lastTrigger + platform.config.timeBetween < Date.now() && platform.counter >= platform.config.minimumSignals) {
                         platform.lastTrigger = Date.now();
-                        platform.log('Received signal from GPIO port.');
+                        if (platform.config.debug) {
+                            platform.log('Received signal from GPIO port.');
+                        }
                         platform.triggerMotion();
                     }
 
-                    platform.log('Counted ' + platform.counter + ' signals.');
+                    if (platform.config.debug) {
+                        platform.log('Counted ' + platform.counter + ' signals.');
+                    }
                     platform.counter = 0;
                     platform.timer = null;
                 }, platform.config.maximumAmountBetweenSignals);
