@@ -67,9 +67,7 @@ function MailboxPlatform(log, config, api) {
                 platform.timer = setTimeout(() => {
                     if (platform.lastTrigger + platform.config.timeBetween < Date.now() && platform.counter >= platform.config.minimumSignals) {
                         platform.lastTrigger = Date.now();
-                        if (platform.config.debug) {
-                            platform.log('Received signal from GPIO port.');
-                        }
+                        platform.log('Received signal from GPIO port.');
                         platform.triggerMotion();
                     }
 
@@ -87,6 +85,7 @@ function MailboxPlatform(log, config, api) {
 }
 
 MailboxPlatform.prototype.unexportOnClose = function () {
+    const platform = this;
     if (platform.pushButton) {
         platform.pushButton.unexport();
     }
