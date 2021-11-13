@@ -1,7 +1,7 @@
 {
-    "name": "homebridge-mailbox",
-    "version": "1.0.5",
-    "description": "A Homebridge plugin with GPIO support",
+    "name": "homebridge-mailbox-Lora-TTN",
+    "version": "0.0.1",
+    "description": "A Homebridge plugin with LoRaWan TTN support",
     "license": "ISC",
     "keywords": [
         "homebridge-plugin",
@@ -31,11 +31,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@github.com:us09alex/homebridge-mailbox.git"
+        "url": "git@github.com:thierry13790/homebridge-mailbox-Lora-TTN.git"
     },
     "bugs": {
-        "url": "https://github.com/us09alex/homebridge-mailbox/issues"
+        "url": "https://github.com/thierry13790/homebridge-mailbox-Lora-TTN/issues"
     },
-    "homepage": "https://github.com/us09alex/homebridge-mailbox#readme",
-    "author": "us09alex"
+    "homepage": "https://github.com/thierry13790/homebridge-mailbox-Lora-TTN#readme",
+    "author": "thierry13790"
 }
+
+https://github.com/thierry13790/homebridge-mailbox-Lora-TTN
