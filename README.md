@@ -1,5 +1,5 @@
 # homebridge-mailbox-LoRa-TTN
-A plugin with GPIO support for Homebridge: https://github.com/nfarina/homebridge 
+A plugin with LoRaWan TTN support for Homebridge: https://github.com/nfarina/homebridge 
 
 ## Why this name?
 
