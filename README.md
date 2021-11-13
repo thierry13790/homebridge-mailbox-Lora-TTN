@@ -1,5 +1,6 @@
 # homebridge-mailbox-LoRa-TTN
 A plugin with LoRaWan TTN support for Homebridge: https://github.com/nfarina/homebridge 
+Thanks Alex for the excellent job done on the initial project that i forked
 
 ## Why this name?
 
