@@ -1,6 +1,6 @@
 const { Gpio } = require('onoff');
 
-const pluginName = 'homebridge-mailbox';
+const pluginName = 'homebridge-mailbox-Lora-TTN';
 const platformName = 'MailboxPlatform';
 
 
