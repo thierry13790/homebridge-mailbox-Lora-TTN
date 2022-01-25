@@ -22,9 +22,6 @@ npm install homebridge-mailbox-Lora-TTN -g
 #### Receiver:
 
 
-### Sender:
-Screw the sender apart and locate the "GND" and "+" pins of the button. Solder one cable on each pin. Now we want to have a closed power circuit if the lever is opend. So try out which to pins of lever achieve this behaviour. After that fix the level behind your mailbox lid. You can use for example adhesive. You need to pay attention if the button behind the lever is pressed when the mailbox lid is closed. If not the sender will send continuously a signal to the receiver.
-
 
 ## Configuration
 Example config.json:
@@ -35,7 +32,6 @@ Example config.json:
                 "platform": "MailboxPlatform",
                 "name": "mailbox",
                 "mailboxName" : "Mailbox",
-                "gpioPort": 4,
                 "timeBetween": 5000,
                 "minimumSignals": 10,
                 "maximumAmountBetweenSignals": 2000,
@@ -46,9 +42,6 @@ Example config.json:
 
 ### mailboxName
 The name of the mailbox in the Home app
-
-### gpioPort
-The port of the Raspberry PI to listen
 
 ### timeBetween
 The minimum time between to triggers of the motion sensor. (Minimum is set to 5 seconds)
