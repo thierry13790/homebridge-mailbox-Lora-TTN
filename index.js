@@ -1,3 +1,12 @@
+const mqtt = require('mqtt');
+
+const options = {
+  username: 'letter-box-1@ttn',
+  password: 'NNSXS.JCOLLLKQ4WP6VO2RXJHOEONHHCG22ZIG5HHEBNY.7PQITYF4KEJNP6FAMEZCYC52KRP2NCZRGT6TF3ML2VHX2OLJ4O2Q',
+}
+
+const client  = mqtt.connect('mqtt://eu1.cloud.thethings.network:1883',options)
+
 var Accessory, Service, Characteristic, UUIDGen;
 
 module.exports = function (homebridge) {
@@ -8,6 +17,7 @@ module.exports = function (homebridge) {
 
     homebridge.registerPlatform("homebridge-mailbox", "MailboxPlatform", MailboxPlatform, true);
 }
+
 
 function MailboxPlatform(log, config, api) {
     const platform = this;
@@ -46,8 +56,26 @@ function MailboxPlatform(log, config, api) {
             if (platform.accessories.length === 0) {
                 platform.addAccessory(platform.config.mailboxName || 'Mailbox');
             }
+        client.on('connect', function () {
+			console.log('Connected')
+			client.subscribe('v3/letter-box-1@ttn/devices/eui-70b3d57ed0046e5a/up', function (err) {
+		    if (!err) {
+				console.log('Subscribe OK')     
+			}
+			else
+				console.log("Error Subscribe");
+	  
+			})
+  
+		})
 
-            platform.api.on('shutdown', platform.unexportOnClose);
+		client.on('message', function (topic, message) {
+			// message is Buffer
+			console.log(message.toString())
+			client.end()
+		})
+
+        platform.api.on('shutdown', platform.unexportOnClose);
         }.bind(this));
     }
 }
